@@ -1,17 +1,23 @@
-const http = require('http');
+// server.js
 
-// Define the server address and port number
-const hostname = '127.0.0.1';
-const port = process.env.PORT || 3000;
+const express = require('express');
+const app = express();
+const port = 3000; // You can change the port number as needed
 
-// Create a server
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello World');
+// Middleware to parse JSON bodies
+app.use(express.json());
+
+// Basic route
+app.get('/', (req, res) => {
+  res.send('Hello, World!');
 });
 
-// Start the server and listen on the defined port
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
+// Route with parameters
+app.get('/hello/:name', (req, res) => {
+  res.send(`Hello, ${req.params.name}!`);
+});
+
+// Start the server
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
 });
